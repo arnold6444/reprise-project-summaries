@@ -1,54 +1,60 @@
 # Youtube Automation System
 
-Personal Project | 2026.03 ~
+개인 프로젝트 | 2026.03 ~
 
-## Problem
+## 프로젝트 목적
 
-Playlist-style YouTube channel operation involves repeated tasks across prompt writing, visual and music candidate management, thumbnail creation, longform/Shorts rendering, upload, status tracking, and performance review. The goal of this project was to turn that scattered workflow into a Telegram-operated automation pipeline while keeping the final creative decision in the operator's hands.
+플레이리스트형 YouTube 채널을 운영하려면 주제 선정, 이미지 프롬프트 작성, 음악 후보 관리, 썸네일 제작, 롱폼/쇼츠 렌더링, 업로드, 상태 확인, 시청 데이터 확인까지 반복 작업이 계속 발생합니다.
 
-## What I Built
+이 프로젝트의 목적은 흩어진 콘텐츠 제작 업무를 Telegram에서 원격으로 조작할 수 있는 자동화 workflow로 묶는 것입니다. 다만 이미지와 음악의 최종 선택은 운영자가 직접 하도록 설계해, 완전 자동 업로드보다 콘텐츠 품질 관리와 운영 안정성을 우선했습니다.
 
-I implemented a Telegram-based content production and upload automation system for playlist YouTube channel operation. The system supports both longform and Shorts production flows. It lets the operator review content candidates, trigger rendering, check progress, and receive upload/status notifications remotely.
+리프라이즈(테디파이)의 봉제 굿즈 제작 과정에서도 상담, 샘플, 생산, 검수, 배송처럼 여러 단계의 상태 관리가 필요하다고 보았습니다. 그래서 이 프로젝트는 반복 업무를 task, status, action, feedback 구조로 나누고 자동화하는 경험으로 연결할 수 있습니다.
 
-This was designed as a human-in-the-loop workflow, not a fully autonomous upload bot. The operator keeps final control over image and music selection, and the system automates the repetitive execution steps after that decision.
+## 구현한 것
 
-## System Workflow
+Telegram bot을 콘텐츠 제작 운영 인터페이스로 사용했습니다. 운영자는 Telegram에서 콘텐츠 후보를 확인하고, 제작을 요청하고, 렌더링 진행 상태를 확인하고, 업로드 결과 알림을 받을 수 있습니다.
+
+전체 구조는 human-in-the-loop 방식입니다. 시스템이 이미지 생성 프롬프트와 음악 후보를 관리하고 렌더링/업로드를 자동화하지만, 최종 선택은 운영자가 직접 합니다.
+
+## Workflow
 
 ```mermaid
 flowchart LR
-    A[Topic / Mood Input] --> B[Prompt and Music Candidates]
-    B --> C[Operator Selection in Telegram]
-    C --> D[Thumbnail and Video Rendering]
-    D --> E[Upload Automation]
-    E --> F[Status Notification]
-    F --> G[Analytics Extension]
+    A[주제 / 분위기 입력] --> B[이미지 프롬프트와 음악 후보 생성]
+    B --> C[Telegram에서 운영자 선택]
+    C --> D[썸네일 / 영상 렌더링]
+    D --> E[업로드 자동화]
+    E --> F[상태 알림]
+    F --> G[시청 데이터 분석 확장]
 ```
 
-## Key Implementation
+## 주요 구현 내용
 
-- Built Telegram bot flows for candidate review, production requests, render status checks, and upload actions.
-- Managed image generation prompts and music candidates before executing the selected production pipeline.
-- Stored project status, candidate sources, thumbnail candidates, and render outputs in SQLite for long-running task tracking.
-- Connected the production flow to FFmpeg-based rendering and upload automation.
-- Verified the local end-to-end operation flow before server deployment.
+- Telegram bot 기반으로 콘텐츠 후보 확인, 제작 요청, 렌더링 상태 확인, 업로드 요청 흐름 구현
+- 이미지 생성 프롬프트와 음악 후보를 수집·관리하고 운영자의 최종 선택을 기준으로 제작 pipeline 실행
+- 장시간 렌더링과 업로드 상태 추적을 위해 프로젝트 상태, 후보 소스, 썸네일 후보, 렌더링 결과를 SQLite에 저장
+- FFmpeg 기반 렌더링과 YouTube 업로드 자동화 흐름 연결
+- 실제 서버 배포 전 로컬 서버 환경에서 end-to-end 운영 흐름 검증
 
-## Evidence Links
+## 공개 가능한 근거
 
-- Output channel: [saebyeok](https://www.youtube.com/@saebyeok_fi)
-- Sample output video: [the sky is quiet enough to stay](https://youtu.be/lJHcvyrVvaw)
+- 결과 채널: [saebyeok](https://www.youtube.com/@saebyeok_fi)
+- 샘플 영상: [the sky is quiet enough to stay](https://youtu.be/lJHcvyrVvaw)
 
-## Tech Stack
+## 기술 스택
 
 Python, Telegram Bot, aiogram, SQLite, SQLAlchemy, FFmpeg, Pillow, YouTube Data API/OAuth, browser automation, log-based debugging
 
-## Public Release Status
+## 공개 상태
 
-The source code is not linked here yet because the local project contains environment files, OAuth-related configuration, browser session artifacts, logs, and generated outputs. A public code repository should be released only after a separate sanitization pass.
+현재 소스 코드는 공개하지 않았습니다. 로컬 프로젝트 안에 `.env`, OAuth 설정, browser session, log, generated output이 섞여 있어 그대로 공개하면 위험하기 때문입니다.
 
-## Next Step
+공개가 필요할 경우에는 민감정보와 산출물을 제거한 별도 clean repository를 만든 뒤 연결할 예정입니다.
 
-- Add cleaned screenshots of the Telegram bot flow.
-- Add a public pipeline diagram image.
-- Prepare a sanitized source-code release or code excerpt repository.
-- Add view analytics automation evidence after the workflow is stable.
+## 다음 보완
+
+- Telegram bot 화면 캡처 추가
+- 후보 선택 화면과 렌더링 상태 화면 추가
+- 전체 pipeline 구조도 이미지 추가
+- 시청 데이터 분석 자동화 결과 추가
 

@@ -1,18 +1,22 @@
-# Reprise Internship Project Summaries
+# 리프라이즈 지원용 프로젝트 요약
 
-This repository contains public, portfolio-safe project summary pages for CV submission.
+이 저장소는 리프라이즈(테디파이) 인턴십 CV 제출을 위해 만든 공개용 프로젝트 요약 페이지입니다.
 
-The pages focus on problem definition, workflow, implementation scope, and evidence. Source code links are added only when the repository is sanitized for public release.
+- 기업: 주식회사 리프라이즈
+- 서비스: 테디파이
+- 공식 사이트: https://www.leaflyze.com/
 
-## Projects
+CV PDF에서 바로 열 수 있도록, 각 프로젝트의 문제 정의, 구현 범위, workflow, 기술 스택, 공개 가능한 근거 링크를 한글로 정리했습니다.
+
+## 프로젝트
 
 - [Youtube Automation System](docs/youtube-automation-system.md)
 - [SemiVision Defect Copilot](docs/semivision-defect-copilot.md)
 - [Explainable Industrial Anomaly Detection](docs/explainable-industrial-anomaly-detection.md)
 
-## Link Policy
+## 링크 사용 기준
 
-- Main CV links point to these summary pages because they are safe to open from a submitted PDF.
-- GitHub source links are added only after removing secrets, tokens, local paths, session files, logs, raw outputs, and private datasets.
-- Demo and output links are used as supporting evidence, not as the main project explanation.
+- CV에는 각 프로젝트의 `프로젝트 요약` 링크를 메인으로 사용합니다.
+- GitHub 코드 링크는 `.env`, API key, token, local path, browser session, log, raw output, private dataset을 제거한 뒤에만 연결합니다.
+- YouTube 채널, 샘플 영상, 대시보드 데모는 프로젝트 결과를 보여주는 보조 링크로 사용합니다.
 
