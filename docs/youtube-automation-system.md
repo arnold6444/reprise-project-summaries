@@ -47,9 +47,14 @@ Python, Telegram Bot, aiogram, SQLite, SQLAlchemy, FFmpeg, Pillow, YouTube Data 
 
 ## 공개 상태
 
-현재 소스 코드는 공개하지 않았습니다. 로컬 프로젝트 안에 `.env`, OAuth 설정, browser session, log, generated output이 섞여 있어 그대로 공개하면 위험하기 때문입니다.
+민감정보와 실행 산출물을 제거한 private GitHub source snapshot을 준비했습니다.
 
-공개가 필요할 경우에는 민감정보와 산출물을 제거한 별도 clean repository를 만든 뒤 연결할 예정입니다.
+- 저장소: `arnold6444/youtube-automation-system`
+- 공개 범위: private
+- 포함한 것: Python application source, Telegram bot workflow, rendering/upload automation code, README, 실행 예시 문서
+- 제외한 것: `.env`, OAuth token, browser profile, data, logs, outputs, generated image/video, local progress log
+
+채용 검토 과정에서 코드 확인이 필요하면 접근 권한을 별도로 공유할 수 있습니다.
 
 ## 다음 보완
 
@@ -57,4 +62,3 @@ Python, Telegram Bot, aiogram, SQLite, SQLAlchemy, FFmpeg, Pillow, YouTube Data 
 - 후보 선택 화면과 렌더링 상태 화면 추가
 - 전체 pipeline 구조도 이미지 추가
 - 시청 데이터 분석 자동화 결과 추가
-

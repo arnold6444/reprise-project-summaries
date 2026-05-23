@@ -43,9 +43,14 @@ Python, Streamlit, OpenCV, scikit-image, scikit-learn, Plotly, SQLite, Docker
 
 ## 공개 상태
 
-현재는 공개 dashboard 또는 GitHub 소스 링크를 연결하지 않았습니다. 현재 구현 흐름이 WaferGuard 내부 Action Card/dashboard 기능과 연결되어 있고, 해당 로컬 프로젝트는 작업 중 변경사항이 많기 때문입니다.
+민감정보와 실행 산출물을 제거한 private GitHub source snapshot을 준비했습니다.
 
-공개 전에는 `.env`, data file, log, generated output, private experiment artifact를 제거하고 dashboard 실행 가능 상태를 다시 확인해야 합니다.
+- 저장소: `arnold6444/semivision-defect-copilot`
+- 공개 범위: private
+- 포함한 것: FastAPI backend, Action Card logic, synthetic wafer image pipeline, SQLite storage flow, React dashboard source, smoke test
+- 제외한 것: `.git`, `.venv`, outputs, node_modules, frontend build output, local execution artifacts
+
+채용 검토 과정에서 코드 확인이 필요하면 접근 권한을 별도로 공유할 수 있습니다.
 
 ## 다음 보완
 
@@ -53,4 +58,3 @@ Python, Streamlit, OpenCV, scikit-image, scikit-learn, Plotly, SQLite, Docker
 - Defect Action Card 화면 캡처 추가
 - inspection history, ticket, feedback 흐름 구조도 추가
 - 안정적으로 실행되는 dashboard demo 배포 후 링크 연결
-
