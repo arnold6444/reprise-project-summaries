@@ -8,7 +8,7 @@
 
 이 프로젝트는 OPGW 송전선로 검사 이미지에서 이상 징후를 탐지하고, LVLM을 활용해 결함 위치와 외형적 근거를 설명하는 explainable anomaly detection 구조를 설계하는 졸업프로젝트입니다. 현재는 OPGW 데이터 검수와 병행해 MVTec AD Cable 데이터를 proxy로 사용해 이상 탐지와 설명 구조를 검증하고 있습니다.
 
-리프라이즈(테디파이)의 제조/검수 업무에서도 특정 불량을 바로 단정하기보다, 의심 위치와 확인 근거를 정리하고 다음 조치로 연결하는 흐름이 필요할 수 있다고 보았습니다. 따라서 이 프로젝트는 다른 산업 검사 도메인에도 재사용 가능한 anomaly detection workflow 경험으로 연결할 수 있습니다.
+다른 산업 검사 도메인에서도 재사용 가능한 anomaly detection workflow를 만드는 것을 목표로 합니다.
 
 ## 구현한 것
 
@@ -71,4 +71,3 @@ https://github.com/arnold6444/explainable-industrial-anomaly-detection
 - MVTec AD Cable 예시 결과 추가: 원본 이미지, heatmap, ROI crop, LVLM 설명, Action Card
 - OPGW 실제 데이터 결과와 proxy data 실험 결과를 분리해 정리
 - 최종 발표자료 또는 result report 링크 추가
-
