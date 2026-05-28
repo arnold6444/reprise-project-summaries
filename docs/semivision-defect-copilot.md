@@ -4,39 +4,39 @@
 
 ## 프로젝트 목적
 
-제조 검사 workflow에서는 단순히 정상/불량 라벨만 보여주는 것만으로는 부족합니다. 사용자는 이상이 어디에 있는지, 어떤 공정/계측 조건과 함께 봐야 하는지, 추가로 확인할 항목은 무엇인지, 엔지니어 판단 이력이 어떻게 남는지를 함께 봐야 합니다.
+제조 검사 workflow에서는 단순히 정상/불량 라벨만 보여주는 것만으로는 부족합니다. 실제 업무에서는 이상이 어디에 있는지, 얼마나 위험한지, 어떤 항목을 추가로 확인해야 하는지, 누가 어떤 판단을 했는지를 함께 남겨야 합니다.
 
-SemiVision Defect Copilot은 WaferGuard 프로젝트에서 확장한 반도체 품질 판단 보조 MVP입니다. 공정 이상 상황을 시뮬레이션하고, wafer map/계측값/공정 정보를 바탕으로 품질 리스크와 후속 action을 Defect Action Card, 리뷰 큐, 인수인계 흐름으로 연결하는 데 초점을 두었습니다.
+SemiVision Defect Copilot은 반도체 생산 과정에서 검사 이미지나 계측값에 이상이 생겼을 때, 엔지니어가 문제 위치와 위험도, 다음 확인 항목을 한 화면에서 볼 수 있도록 만든 품질 판단 보조 MVP입니다. 핵심은 AI가 최종 판단을 대신하는 것이 아니라, 사람이 판단하기 쉽게 근거와 후속 action을 정리해주는 workflow를 만드는 것입니다.
 
 ## 구현한 것
 
-FastAPI backend와 React dashboard를 구성해 검사 실행, 엔지니어 리뷰, metrics, automation, handoff, Fab Ops Copilot 화면을 구현했습니다. 입력은 실제 fab 데이터가 아니라 synthetic wafer image와 fixture 기반 시뮬레이션 데이터이며, 실제 데이터처럼 과장하지 않도록 화면과 문서에서 데이터 경계를 분리했습니다.
+FastAPI backend와 React dashboard를 구성해 검사 실행, 결과 확인, 엔지니어 리뷰, 인수인계 화면을 구현했습니다. 입력은 실제 fab 데이터가 아니라 synthetic wafer image와 가상 계측값을 사용했으며, 실제 데이터처럼 과장하지 않도록 데이터 경계를 문서에 명시했습니다.
 
-검사 요청에는 lot/wafer/line/equipment/process step/recipe 정보와 CD, overlay, film thickness, roughness, defect count, yield proxy 같은 계측값을 함께 입력하도록 설계했습니다. 이후 wafer map, Grad-CAM style overlay, ROI crop, metrology rule hit, RAG 유사 사례를 묶어 risk score와 Action Card를 생성합니다.
+검사 요청에는 lot/wafer/line/equipment/process step/recipe 정보와 CD, overlay, film thickness, roughness, defect count, yield proxy 같은 계측값을 함께 입력하도록 설계했습니다. 이후 이상 의심 위치를 wafer map, overlay, ROI crop으로 보여주고, 위험도와 검토 필요 여부를 계산한 뒤 Defect Action Card를 생성합니다.
 
 ## Workflow
 
 ```mermaid
 flowchart LR
-    A[Process / Wafer / Metrology Input] --> B[Synthetic Wafer Scenario]
-    B --> C[Wafer Map / Overlay / ROI]
-    A --> D[Metrology Rule Hit]
-    C --> E[Risk Score / Review Status]
+    A[공정 / 웨이퍼 / 계측값 입력] --> B[이상 상황 시뮬레이션]
+    B --> C[이상 위치 시각화]
+    A --> D[추가 확인 항목 점검]
+    C --> E[위험도 / 검토 필요 여부 계산]
     D --> E
     E --> F[Defect Action Card]
-    F --> G[Engineer Review Queue]
-    G --> H[Handoff / Daily Report]
-    G --> I[SQLite History]
+    F --> G[엔지니어 리뷰]
+    G --> H[인수인계 / Daily Report]
+    G --> I[검사 이력 저장]
 ```
 
 ## 주요 구현 내용
 
-- FastAPI 기반 Agent workflow API와 React 운영 dashboard 구현
-- 9개 wafer defect 상황을 synthetic wafer image로 생성하고 wafer map, Grad-CAM style overlay, ROI crop 제공
-- 공정 step, 장비, recipe, CD/overlay/thickness/roughness/defect count/yield proxy를 함께 받는 검사 요청 구조 설계
-- metrology rule hit와 hotspot ratio를 risk score, review status, Action Card 조치 후보에 반영
-- Defect Action Card에 가능 원인, 추가 metrology 확인 항목, process check, next action, human review rule 정리
-- SQLite에 검사 이력, 엔지니어 리뷰, handoff 상태를 저장하고 dashboard에서 review queue, defect mix, Daily Report, Fab Ops Copilot 흐름으로 확인 가능하게 구성
+- FastAPI 기반 API와 React 운영 dashboard 구현
+- 9가지 wafer defect 상황을 synthetic wafer image로 생성하고 wafer map, overlay, ROI crop으로 이상 위치 시각화
+- 공정 단계, 장비, recipe, CD/overlay/thickness 등 계측값을 함께 입력받는 검사 요청 구조 설계
+- 계측값과 이상 위치 정보를 바탕으로 위험도와 검토 필요 여부 계산
+- Defect Action Card에 의심 원인, 추가 확인할 계측 항목, 공정 점검 항목, 다음 조치, human review rule 정리
+- SQLite에 검사 이력, 엔지니어 리뷰, handoff 상태를 저장하고 dashboard에서 review queue, Daily Report 흐름으로 확인 가능하게 구성
 
 ## 기술 스택
 
